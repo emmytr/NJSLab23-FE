@@ -39,7 +39,10 @@ class Feed extends Component {
       .catch(this.catchError);
 
     this.loadPosts();
-    const socket = openSocket(`${process.env.REACT_APP_API_URL}`);
+    const socket = openSocket(`${process.env.REACT_APP_API_URL}`, {
+      transports: ['websocket', 'polling'],
+      withCredentials: true
+    });
     socket.on('posts', data => {
       if (data.action === 'create') {
         this.addPost(data.post);
